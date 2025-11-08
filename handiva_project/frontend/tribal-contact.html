@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact Tribal Team - Handiva</title><link rel="stylesheet" href="styles/styles.css" /></head><body>
+<header class="site-header"><div class="container header-inner"><div class="brand"><h1>Handiva</h1></div></div></header>
+<main class="container">
+  <h2>Contact Tribal Artisans & Support Team</h2>
+  <p>Use this form to request direct contact with tribal artisans. Our dedicated team will reach out and facilitate communication and fair trade arrangements.</p>
+  <form id="tribalForm">
+    <label>Your name<input name="name" required /></label><br/>
+    <label>Email<input name="email" type="email" /></label><br/>
+    <label>Region<select name="region"><option>Telangana</option><option>Odisha</option><option>Chhattisgarh</option></select></label><br/>
+    <label>Message<textarea name="message" required></textarea></label><br/>
+    <button type="submit" class="btn">Send</button>
+  </form>
+  <div id="result"></div>
+</main>
+<script>
+document.getElementById('tribalForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const body = Object.fromEntries(fd.entries());
+  const res = await fetch('/api/tribal-contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  const data = await res.json();
+  document.getElementById('result').innerText = data.success ? 'Request submitted. Our team will contact you.' : ('Error: ' + (data.error||'unknown'));
+});
+</script>
+</body></html>

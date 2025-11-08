@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Catalog - Handiva</title>
+<link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body>
+  <header class="site-header"><div class="container header-inner"><div class="brand"><h1>Handiva</h1></div>
+  <nav class="main-nav"><a href="index.html">Home</a><a href="catalog.html">Catalog</a><a href="tribal-contact.html">Contact Tribes</a></nav></div></header>
+
+  <main class="container">
+    <h2>Catalog</h2>
+    <section class="filters">
+      <label>Material <select id="material"><option value="">Any</option><option>Wool</option><option>Jute</option><option>Cotton</option><option>Clay</option></select></label>
+      <label>Telangana <select id="telangana"><option value="">Any</option><option value="true">Only Telangana</option></select></label>
+      <button id="apply">Apply</button>
+    </section>
+    <section id="products" class="spotlight">
+      <div class="cards" id="product-list"></div>
+    </section>
+  </main>
+
+  <script>
+    async function loadProducts(){
+      const mat = document.getElementById('material').value;
+      const tel = document.getElementById('telangana').value;
+      const q = new URLSearchParams({ material: mat, telangana: tel }).toString();
+      const res = await fetch('/api/products?' + q);
+      const data = await res.json();
+      const list = document.getElementById('product-list');
+      list.innerHTML = '';
+      if(!data || data.length===0) list.innerHTML = '<p>No items found (this is a demo - add products via backend).</p>';
+      (data||[]).forEach(p=>{
+        const c = document.createElement('div'); c.className='card';
+        c.innerHTML = `<img src="${p.images && p.images[0] || 'assets/hero-wool.jpg'}" /><strong>${p.title || 'Untitled'}</strong><small>${p.artisan?.origin || ''}</small><p style="color:#555">₹${p.price||0}</p><a href="product.html?id=${p._id||''}" class="btn">View</a>`;
+        list.appendChild(c);
+      });
+    }
+    document.getElementById('apply').addEventListener('click', loadProducts);
+    loadProducts();
+  </script>
+</body>
+</html>

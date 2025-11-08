@@ -1,0 +1,63 @@
+<!doctype html><html lang="en"><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Seller Dashboard - Handiva</title><link rel="stylesheet" href="styles/styles.css" /></head><body>
+<header class="site-header"><div class="container header-inner"><div class="brand"><h1>Handiva</h1></div></div></header>
+<main class="container">
+  <h2>Seller Dashboard (Demo)</h2>
+  <section class="card">
+    <h3>Upload Product</h3>
+    <form id="uploadForm">
+      <label>Title<input name="title" required /></label><br/>
+      <label>Price<input name="price" type="number" required /></label><br/>
+      <label>Material<input name="material" /></label><br/>
+      <label>Telangana? <select name="telangana"><option value="false">No</option><option value="true">Yes</option></select></label><br/>
+      <label>Description<textarea name="description"></textarea></label><br/>
+      <button class="btn" type="submit">Upload (Demo)</button>
+    </form>
+    <p style="color:#666">This demo will not upload images. Use backend API to add images and full product details.</p>
+  </section>
+  <section style="margin-top:12px" class="card">
+    <h3>Inventory & Sales</h3>
+    <p>Key metrics will appear here for real sellers.</p>
+  </section>
+</main>
+<script>
+
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = {
+    title: e.target.title.value,
+    price: e.target.price.value,
+    material: e.target.material.value,
+    telangana: e.target.telangana.value,
+    description: e.target.description.value
+  };
+
+  try {
+    const res = await fetch('http://localhost:5000/api/products', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert('✅ Product saved successfully!');
+      e.target.reset();
+      console.log('Saved:', data.product);
+    } else {
+      alert('❌ Error: ' + (data.error || 'Unknown error'));
+    }
+
+  } catch (err) {
+    alert('❌ Failed to connect to server');
+    console.error(err);
+  }
+});
+
+
+</script>
+</body></html>

@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Chatbot - Handiva</title><link rel="stylesheet" href="styles/styles.css" /></head><body>
+<header class="site-header"><div class="container header-inner"><div class="brand"><h1>Handiva</h1></div></div></header>
+<main class="container">
+  <h2>AI Chatbot (Demo)</h2>
+  <div class="card">
+    <div>
+      <label>Language<select id="lang"><option value="">English</option><option value="hi">Hindi</option><option value="te">Telugu</option></select></label>
+    </div>
+    <div style="margin-top:12px">
+      <input id="q" placeholder="Ask about shipping, returns, or artisans" style="width:60%" />
+      <button id="ask" class="btn">Ask</button>
+    </div>
+    <div id="answer" style="margin-top:12px"></div>
+  </div>
+</main>
+<script>
+document.getElementById('ask').addEventListener('click', async ()=>{
+  const q = document.getElementById('q').value;
+  const lang = document.getElementById('lang').value;
+  const raw = window.demoBot.respond(q);
+  const translated = await window.translateMock(raw, lang);
+  document.getElementById('answer').innerText = translated;
+});
+</script>
+</body></html>
