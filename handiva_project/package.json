@@ -4,7 +4,7 @@
   "description": "This project is a scaffold for **Handiva**, an e-commerce platform for handcrafted goods (woolen items, Telangana region crafts, pottery, jute, paper craft, handmade jewelry, etc.) Frontend is plain **HTML/CSS/Vanilla JS** (no frameworks). Backend uses **Express.js** + **MongoDB**.",
   "main": "index.js",
   "scripts": {
-  "start": "node server.js"
+  "start": "node backend/server.js"
 },
   "keywords": [],
   "author": "",
